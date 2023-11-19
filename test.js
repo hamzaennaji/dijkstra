@@ -52,14 +52,15 @@ class Graph{
         }
         
         dijkstra(start, end){
-            let distances={};
+            let distances={},
+            visited={};
             for(let node in this.nodes_list){
                 if(start===node) distances[node]=0;
                 else{
                     distances[node]=Infinity;
                 }
             }
-            console.log(distances);
+
         }
 
     link_exist(node1, node2){
@@ -77,14 +78,14 @@ class Graph{
 let graph=new Graph();
 graph.add_node("a");
 graph.add_node("b");
-// graph.add_node("c");
-// graph.add_node("d");
+graph.add_node("c");
+graph.add_node("d");
 
 
 graph.add_link("a","b",1);
-// graph.add_link("b","d",3);
-// graph.add_link("b","c",2);
-// graph.add_link("c","d",9);
+graph.add_link("b","d",3);
+graph.add_link("b","c",2);
+graph.add_link("c","d",9);
 // graph.display();
 // graph.change_weight("a","b",6);
 // graph.display();

@@ -1,70 +1,84 @@
-class Graph{
-    constructor(){
-        this.nodes=[];//represente un sommet ex: O---->
-        this.adjacency_list={};/* represente une liste des sommets adjacents  ex: O---2-->O
-                                                                            ^   ^   ^
-                                                                            s1  poids s2 */
+class Graph {
+    constructor() {
+        this.nodes = [];
+        this.nodeList = {};
     }
-    //creation d'un sommet
-    add_node(node){
+    nodes_list(node) {
         this.nodes.push(node);
-        this.adjacency_list[node]={};//pour connecter les sommets entre eux avec un poids donne 
+        this.nodeList[node] = {};
     }
-    add_link(node1, node2, weight){
-        this.adjacency_list[node1][node2]=weight;//l'ajout du poids entre les deux sommets
+    
+    addLink(node1, node2, weight) {
+        this.nodeList[node1][node2] = weight;
     }
-    change_weight(node1, node2, weight){
-        this.adjacency_list[node1][node2]=weight;//remplace un poids par autre
+    
+    changeWeight(node1, node2, weight) {
+        this.nodeList[node1][node2] = weight;
     }
-    min_distance_node(distances, visited){
-        let min_distance=Infinity,
-        min_node=null;
-        for(let node in distances){
-            let distance=distances[node];
-            if(distance<min_distance && !visited.has(node)){
-                min_distance=distance;
-                min_node=node;
+    dijkstra(source) {
+        let distances = {},
+            parents = {},
+            visited = new Set();
+        for (let i = 0; i < this.nodes.length; i++) {
+            if (this.nodes[i] === source) {
+                distances[source] = 0;
+            } else {
+                distances[this.nodes[i]] = Infinity;
             }
+            parents[this.nodes[i]] = null;
         }
-        return min_node;
-    }
-    dijkstra(source){
-        let distances={},
-        parents={},
-        visited=new Set();
-        for(let i=0;i<this.nodes.length;i++){
-            if(this.nodes[i]===source) distances[this.nodes[i]=0];
-            else{
-                this.nodes[i]=Infinity;
-            }
-            parents[this.nodes[i]]=null;
-        }
-        let current_node=this.min_distance_node(distances, visited);
-        while(current_node!==null){
-            let distance=distances[current_node],
-            neighbors=this.adjacency_list[current_node];
-            for(let neighbor  in neighbors){
-                let new_distance=distance+neighbors[neighbor];
-                if(distances[neighbor]>new_distance){
-                    distances[neighbor]=new_distance;
-                    parents[neighbor]=current_node;
+        
+        let currNode = this.minDistanceNode(distances, visited);
+    
+        while (currNode !== null) {
+            let distance = distances[currNode],
+                neighbors = this.nodeList[currNode];
+            for (let neighbor in neighbors) {
+                let newDistance = distance + neighbors[neighbor];
+                if (distances[neighbor] > newDistance) {
+                    distances[neighbor] = newDistance;
+                    parents[neighbor] = currNode;
                 }
             }
+            visited.add(currNode);
+            currNode = this.minDistanceNode(distances, visited);
         }
+    
         console.log(parents);
         console.log(distances);
     }
+    minDistanceNode(distances, visited) {
+        let minDistance = Infinity,
+            minNode = null;
+        for (let node in distances) {
+            let distance = distances[node];
+            if (distance < minDistance && !visited.has(node)) {
+                minDistance = distance;
+                minNode = node;
+            }
+        }
+        return minNode;
+    }
 }
 
-let graph=new Graph();
-graph.add_node('A');
-graph.add_node('B');
-graph.add_node('C');
-graph.add_node('D');
 
-graph.add_link('A', 'B', 3);
-graph.add_link('A', 'C', 2);
-graph.add_link('B', 'D', 2);
-graph.add_link('C', 'D', 6);
+let g = new Graph();
 
-graph.dijkstra('A');
+// add the nodes
+g.nodes_list('A');
+g.nodes_list('B');
+g.nodes_list('C');
+g.nodes_list('D');
+
+// create the edges
+g.addLink('A', 'B', 3);
+g.addLink('A', 'C', 2);
+g.addLink('B', 'D', 2);
+g.addLink('C', 'D', 6);
+
+// run dijkstra's algorithm, with A as the source node.
+g.dijkstra('A');
+
+// should log
+// { A: null, B: 'A', C: 'A', D: 'B' }
+// { A: 0, B: 3, C: 2, D: 5 }
