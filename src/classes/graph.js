@@ -62,22 +62,22 @@ class Graph {
 }
 
 
-let g = new Graph();
+// let g = new Graph();
 
-// add the nodes
-g.nodes_list('A');
-g.nodes_list('B');
-g.nodes_list('C');
-g.nodes_list('D');
+// // add the nodes
+// g.nodes_list('A');
+// g.nodes_list('B');
+// g.nodes_list('C');
+// g.nodes_list('D');
 
-// create the edges
-g.addLink('A', 'B', 3);
-g.addLink('A', 'C', 2);
-g.addLink('B', 'D', 2);
-g.addLink('C', 'D', 6);
+// // create the links
+// g.addLink('A', 'B', 3);
+// g.addLink('A', 'C', 2);
+// g.addLink('B', 'D', 2);
+// g.addLink('C', 'D', 6);
 
-// run dijkstra's algorithm, with A as the source node.
-g.dijkstra('A');
+// // A as the source node.
+// g.dijkstra('A');
 
 // should log
 // { A: null, B: 'A', C: 'A', D: 'B' }
