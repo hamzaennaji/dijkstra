@@ -10,13 +10,13 @@ function visualize(g) {
             left: Math.random() * ($('#field').width()-100),
             top: Math.random() * ($('#field').height()-100)
           }));
-        for(links in list[node]){
-            // console.log(link+":");console.log($("#"+link).position());
+        for(let links in list[node]){
             var $link = $("<span>").addClass("link").attr("id",node+"-"+links);
             $("#field").append($link);
-            var begin=$("#"+node);
-            var end=$("#"+links);
-            updateLinks($link, $(begin),$(end));
+            // var begin=$("#"+node);
+            // var end=$("#"+links);
+            // console.log(end);
+            // updateLinks($link, $(begin),$(end));
             // console.log("links:"+endnode);
             }
         }
@@ -27,37 +27,38 @@ function visualize(g) {
     for(let node in list){
         $("#"+node).on("click",function(){
             //  console.log($(this).attr('id')+":");console.log($(this).position());
-            var startnode=$(this).attr("id");
+            
+            console.log("nodes:"+node);
             // console.log($(this).attr("id"));
             if(Object.keys(list[node]).length>=1){
-                for(links in list[node]){
+                for(let links in list[node]){
                     // console.log(link+":");console.log($("#"+link).position());
-                     var endnode=links;
-                    // console.log("links:"+endnode);
+                    var a=$("#"+node);
+                    var b=$("#"+links);
+                    $(".node").draggable({
+                        drag:function(event, ui){
+                            updateLinks($link,a,b);
+                        }
+                    });
                 }
             }
         });
     }
 
-    function updateLinks($link,$startnode,$endnode){
-        var startnodeX=$startnode.position().left+$startnode.width()/2;
-        var startnodeY=$startnode.position().top+$startnode.height()/2;
-        var endnodeX=$endnode.position().left+$endnode.width()/2;
-        var endnodeY=$endnode.position().top+$endnode.height()/2;
-        var distance=Math.sqrt(Math.pow(endnodeX - startnodeX, 2) + Math.pow(endnodeY - startnodeY, 2));
-        var angle = Math.atan2(endnodeY-startnodeY, endnodeX-startnodeX)*(180/Math.PI);
+    function updateLinks($link,$a,$b){
+        var aX = $a.position().left + $a.width() / 2;
+        var aY = $a.position().top + $a.height() / 2;
+        var bX = $b.position().left + $b.width() / 2;
+        var bY = $b.position().top + $b.height() / 2;
+        var distance = Math.sqrt(Math.pow(bX - aX, 2) + Math.pow(bY - aY, 2));
+        var angle = Math.atan2(bY - aY, bX - aX) * (180 / Math.PI);
         $link.css({
-            left: startX,
-            top: startY,
+            left: aX,
+            top: aY,
             width: distance,
             transform: "rotate(" + angle + "deg)"
           });
     }
-    $(".node").draggable({
-        drag:function(event, ui){
-            updateLinks($link,$startnode,$endnode)
-        }
-    });
     // $(".node").droppable();
 
     // for (let node in g.nodeList) {
