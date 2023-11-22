@@ -1,49 +1,50 @@
 function visualize(g) {
     let list=g.nodeList;
-    // console.table(list["A"]);
-    for (let node in list) {
-        $("#field").append(
-        $("<span>").addClass("node")
-        .text(node)
-        .attr("id",node)
-        .css({
-            left: Math.random() * ($('#field').width()-100),
-            top: Math.random() * ($('#field').height()-100)
-          }));
-        for(let links in list[node]){
-            var $link = $("<span>").addClass("link").attr("id",node+"-"+links);
-            $("#field").append($link);
-            // var begin=$("#"+node);
-            // var end=$("#"+links);
-            // console.log(end);
-            // updateLinks($link, $(begin),$(end));
-            // console.log("links:"+endnode);
-            }
-        }
-    // for(let x in $(".node")){
-    //     console.log($(x).text());
-    // }
-
+    let neighbors=[];
     for(let node in list){
-        $("#"+node).on("click",function(){
-            //  console.log($(this).attr('id')+":");console.log($(this).position());
-            
-            console.log("nodes:"+node);
-            // console.log($(this).attr("id"));
-            if(Object.keys(list[node]).length>=1){
-                for(let links in list[node]){
-                    // console.log(link+":");console.log($("#"+link).position());
-                    var a=$("#"+node);
-                    var b=$("#"+links);
-                    $(".node").draggable({
-                        drag:function(event, ui){
-                            updateLinks($link,a,b);
-                        }
-                    });
-                }
-            }
-        });
+        $("#field").append(//create circles
+            $("<span>").addClass("node")
+            .text(node)
+            .attr("id",node)
+            .css({
+                left: Math.random() * ($('#field').width()-100),
+                top: Math.random() * ($('#field').height()-100)
+            }));
+        console.log("node:"+node);
+        for(let links in list[node]){
+            // neighbors.push({start:node,end:links,id:node+"-"+links});
+            console.log("links:"+links);
+            $("#field").append($("<span>").addClass("link").attr("id",node+"-"+links));//create line
+        }
     }
+    for(let node in list){
+        let start=$("#"+node);
+        for(let links in list[node]){
+            let end=$("#"+links);
+            let line=$("#"+node+"-"+links);
+            updateLinks(line,start,end);
+        }
+    }
+    // for(let node in list){
+    //     $("#"+node).on("click",function(){
+    //         //  console.log($(this).attr('id')+":");console.log($(this).position());
+            
+    //         console.log("nodes:"+node);
+    //         // console.log($(this).attr("id"));
+    //         if(Object.keys(list[node]).length>=1){
+    //             for(let links in list[node]){
+    //                 // console.log(link+":");console.log($("#"+link).position());
+    //                 var a=$("#"+node);
+    //                 var b=$("#"+links);
+    //                 $(".node").draggable({
+    //                     drag:function(event, ui){
+    //                         updateLinks($link,a,b);
+    //                     }
+    //                 });
+    //             }
+    //         }
+    //     });
+    // }
 
     function updateLinks($link,$a,$b){
         var aX = $a.position().left + $a.width() / 2;
