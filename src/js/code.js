@@ -1,7 +1,8 @@
 function visualize(g) {
     let list=g.nodeList;
-    // let neighbors=[];
-    for(let node in list){
+    // let neighbors=[];d
+    function drawevErything(list){
+       for(let node in list){
         $("#field").append(//create circles
             $("<span>").addClass("node")
             .text(node)
@@ -10,34 +11,41 @@ function visualize(g) {
                 left: Math.random() * ($('#field').width()-100),
                 top: Math.random() * ($('#field').height()-100)
             }));
-        console.log("node:"+node);
-        for(let links in list[node]){
-            // neighbors.push({start:node,end:links,id:node+"-"+links});
-            console.log("links:"+links);
-            $("#field").append($("<span>").addClass("link").attr("id",node+"-"+links));//create line
-        }
-    }
-    // initiate links with each node
-    for(let node in list){
-        let start=$("#"+node);
-        for(let links in list[node]){
-            let end=$("#"+links);
-            let line=$("#"+node+"-"+links);
-            updateLinks(line,start,end);
-        }
-    }
-    $(".node").draggable({
-        drag:function(event, ui){
-            for(let node in list){
-                let start=$("#"+node);
-                for(let links in list[node]){
-                    let end=$("#"+links);
-                    let line=$("#"+node+"-"+links);
-                    updateLinks(line,start,end);
-                }
+            // console.log("node:"+node);
+            for(let links in list[node]){
+                // neighbors.push({start:node,end:links,id:node+"-"+links});
+                // console.log("links:"+links);
+                $("#field").append($("<span>").addClass("link").attr("id",node+"-"+links));//create line
             }
         }
-    });    
+    }
+    
+    // initiate links with each node
+    function initLinks(list){
+        for(let node in list){
+            let start=$("#"+node);
+            for(let links in list[node]){
+                let end=$("#"+links);
+                let line=$("#"+node+"-"+links);
+                updateLinks(line,start,end);
+            }
+        }
+    }
+
+    function dragNode(list){
+        $(".node").draggable({
+            drag:function(event, ui){
+                for(let node in list){
+                    let start=$("#"+node);
+                    for(let links in list[node]){
+                        let end=$("#"+links);
+                        let line=$("#"+node+"-"+links);
+                        updateLinks(line,start,end);
+                    }
+                }
+            }
+        });    
+    }
     // for(let node in list){
     //     $("#"+node).on("click",function(){
     //         //  console.log($(this).attr('id')+":");console.log($(this).position());
@@ -58,20 +66,20 @@ function visualize(g) {
     //         }
     //     });
     // }
-    function updateLinks($link,$a,$b){
-        var aX = $a.position().left + $a.width() / 2;
-        var aY = $a.position().top + $a.height() / 2;
-        var bX = $b.position().left + $b.width() / 2;
-        var bY = $b.position().top + $b.height() / 2;
-        var distance = Math.sqrt(Math.pow(bX - aX, 2) + Math.pow(bY - aY, 2));
-        var angle = Math.atan2(bY - aY, bX - aX) * (180 / Math.PI);
-        $link.css({
-            left: aX,
-            top: aY,
-            width: distance,
-            transform: "rotate(" + angle + "deg)"
-          });
-    }
+    // function updateLinks($link,$a,$b){
+    //     var aX = $a.position().left + $a.width() / 2;
+    //     var aY = $a.position().top + $a.height() / 2;
+    //     var bX = $b.position().left + $b.width() / 2;
+    //     var bY = $b.position().top + $b.height() / 2;
+    //     var distance = Math.sqrt(Math.pow(bX - aX, 2) + Math.pow(bY - aY, 2));
+    //     var angle = Math.atan2(bY - aY, bX - aX) * (180 / Math.PI);
+    //     $link.css({
+    //         left: aX,
+    //         top: aY,
+    //         width: distance,
+    //         transform: "rotate(" + angle + "deg)"
+    //       });
+    // }
     function updateLinks($link, $a, $b) {
         var aX = $a.position().left + $a.width() / 2;
         var aY = $a.position().top + $a.height() / 2;
@@ -123,4 +131,7 @@ function visualize(g) {
     //     let y2 = getY(node2);   
     //     return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     // }
+    drawevErything(list);
+    initLinks(list);
+    dragNode(list);
 }
