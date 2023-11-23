@@ -1,6 +1,6 @@
 function visualize(g) {
     let list=g.nodeList;
-    let neighbors=[];
+    // let neighbors=[];
     for(let node in list){
         $("#field").append(//create circles
             $("<span>").addClass("node")
@@ -17,6 +17,7 @@ function visualize(g) {
             $("#field").append($("<span>").addClass("link").attr("id",node+"-"+links));//create line
         }
     }
+    // initiate links with each node
     for(let node in list){
         let start=$("#"+node);
         for(let links in list[node]){
@@ -25,6 +26,18 @@ function visualize(g) {
             updateLinks(line,start,end);
         }
     }
+    $(".node").draggable({
+        drag:function(event, ui){
+            for(let node in list){
+                let start=$("#"+node);
+                for(let links in list[node]){
+                    let end=$("#"+links);
+                    let line=$("#"+node+"-"+links);
+                    updateLinks(line,start,end);
+                }
+            }
+        }
+    });    
     // for(let node in list){
     //     $("#"+node).on("click",function(){
     //         //  console.log($(this).attr('id')+":");console.log($(this).position());
@@ -45,7 +58,6 @@ function visualize(g) {
     //         }
     //     });
     // }
-
     function updateLinks($link,$a,$b){
         var aX = $a.position().left + $a.width() / 2;
         var aY = $a.position().top + $a.height() / 2;
@@ -60,6 +72,24 @@ function visualize(g) {
             transform: "rotate(" + angle + "deg)"
           });
     }
+    function updateLinks($link, $a, $b) {
+        var aX = $a.position().left + $a.width() / 2;
+        var aY = $a.position().top + $a.height() / 2;
+        var bX = $b.position().left + $b.width() / 2;
+        var bY = $b.position().top + $b.height() / 2;
+        // gpt said : stick to the circle son!
+        var midX = (aX + bX) / 2;
+        var midY = (aY + bY) / 2;
+        var distance = Math.sqrt(Math.pow(bX - aX, 2) + Math.pow(bY - aY, 2));
+        var angle = Math.atan2(bY - aY, bX - aX) * (180 / Math.PI);
+        $link.css({
+          left: midX - distance / 2,
+          top: midY - $link.height() / 2,
+          width: distance,
+          transform: "rotate(" + angle + "deg)"
+        });
+      }
+      
     // $(".node").droppable();
 
     // for (let node in g.nodeList) {
