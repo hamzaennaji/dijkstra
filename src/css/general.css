@@ -38,3 +38,7 @@ body{
     text-align: center;
     z-index: 11;
 }
+.weight{
+    position: relative;
+    text-align: center;
+}

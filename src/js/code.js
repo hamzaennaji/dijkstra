@@ -16,6 +16,7 @@ function visualize(g) {
                 // neighbors.push({start:node,end:links,id:node+"-"+links});
                 // console.log("links:"+links);
                 $("#field").append($("<span>").addClass("link").attr("id",node+"-"+links));//create line
+                $("#field").append($("<span>").addClass("weight").attr("id","weight").html(list[node][links]));//create weight
             }
         }
     }
@@ -25,8 +26,7 @@ function visualize(g) {
         for(let node in list){
             let start=$("#"+node);
             for(let links in list[node]){
-                let end=$("#"+links);
-                let line=$("#"+node+"-"+links);
+                let end=$("#"+links), line=$("#"+node+"-"+links);
                 updateLinks(line,start,end);
             }
         }
@@ -38,13 +38,19 @@ function visualize(g) {
                 for(let node in list){
                     let start=$("#"+node);
                     for(let links in list[node]){
-                        let end=$("#"+links);
-                        let line=$("#"+node+"-"+links);
+                        let end=$("#"+links), line=$("#"+node+"-"+links);
                         updateLinks(line,start,end);
                     }
                 }
             }
         });    
+    }
+
+    function highlightDistance(){
+        let path=g.dijkstra(g.nodes[0])["distances"];
+        for(let k of Object.keys(path)){
+            console.table(Object.keys(path)[Object.keys(path).indexOf(k)+1]);
+        }
     }
     // for(let node in list){
     //     $("#"+node).on("click",function(){
@@ -86,6 +92,7 @@ function visualize(g) {
         var bX = $b.position().left + $b.width() / 2;
         var bY = $b.position().top + $b.height() / 2;
         // gpt said : stick to the circle son!
+        // dont touch it! it's working!!
         var midX = (aX + bX) / 2;
         var midY = (aY + bY) / 2;
         var distance = Math.sqrt(Math.pow(bX - aX, 2) + Math.pow(bY - aY, 2));
@@ -96,7 +103,11 @@ function visualize(g) {
           width: distance,
           transform: "rotate(" + angle + "deg)"
         });
-      }
+        $(".weight").css({
+            left: midX - distance / 8,
+            top: midY - $link.height() / 2,
+        });
+        }
       
     // $(".node").droppable();
 
@@ -134,4 +145,5 @@ function visualize(g) {
     drawevErything(list);
     initLinks(list);
     dragNode(list);
+    // highlightDistance();
 }

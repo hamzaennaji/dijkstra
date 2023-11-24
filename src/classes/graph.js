@@ -44,8 +44,9 @@ class Graph {
             currNode = this.minDistanceNode(distances, visited);
         }
     
-        console.log(parents);
-        console.log(distances);
+/*         console.log(parents);
+        console.log(distances); */
+        return {distances, parents};
     }
     minDistanceNode(distances, visited) {
         let minDistance = Infinity,
