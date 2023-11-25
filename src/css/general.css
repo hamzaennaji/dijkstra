@@ -39,6 +39,11 @@ body{
     z-index: 11;
 }
 .weight{
-    position: relative;
+    
     text-align: center;
+    width: 100%;
+    display: block;
+    z-index: 200;
+    color: white;
+    position: absolute;
 }
