@@ -3,24 +3,23 @@
     font-family: sans-serif;
 }
 body{
-    padding: 0px ;
-    margin : 0px ;    
+    padding: 0px;
+    margin : 0px;    
     overflow: hidden;
 }
 #field{
-    padding : 0px           ;
-    margin  : 0px           ;
-    width   : 100%          ;
-    height  : 100vh         ;
-    z-index: 50;
+    padding : 0px;
+    margin  : 0px;
+    width   : 100%;
+    height  : 100vh;
     overflow: hidden !important;
 }
 .node {
-    width:          30px;
-    height:         30px;
-    padding:        0.5em; 
-    border-radius:  50%;
-    z-index: 99;
+    width:30px;
+    height:30px;
+    padding:0.5em; 
+    border-radius:50%;
+    z-index: 2;
     background-color: palevioletred;
     color: black;
     line-height: 15px;
@@ -36,10 +35,9 @@ body{
     height: 1px;
     position: absolute !important;
     text-align: center;
-    z-index: 11;
+    z-index: 1;
 }
 .weight{
-    
     text-align: center;
     width: 100%;
     display: block;
@@ -47,4 +45,22 @@ body{
     color: white;
     position: absolute;
 }
-table{display: block;}
+.choices{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    margin-left: 40%;
+}
+.close {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #cacaca;
+    text-shadow: 0 1px 0 #fff;
+  }
+.close:hover{
+    color: #fffbfb;
+    text-shadow: 0 1px 0 #fff;
+  }
+.table-bordered td, .table-bordered th{border: 1px solid #495057;}

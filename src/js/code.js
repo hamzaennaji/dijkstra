@@ -1,4 +1,4 @@
-function visualize(g) {
+function simulate(g) {//
     let list=g.nodeList;
     // let neighbors=[];
     function drawevErything(list){
@@ -34,6 +34,7 @@ function visualize(g) {
 
     function dragNode(list){
         $(".node").draggable({
+            containment: "#field", 
             drag:function(event, ui){
                 for(let node in list){
                     let start=$("#"+node);
@@ -72,7 +73,24 @@ function visualize(g) {
         $link.find(".weight").css({
             transform: "rotate(" + (-angle) + "deg)"
         });
+        } 
+        while($(".close").data('clicked')!=="yes"){
+            let i=0;
+            $("#add").click(function () {
+                i++;
+                $("#insert").append(`<tr>
+                <td><input class="form-control" type="text" placeholder="point ${i}" aria-label="point ${i}"></td>
+                <td>
+                <button type="button" class="btn btn-danger w-100 text-center" data-clicked=no>X</button>
+                </button>
+                </td>
+                </tr>`);
+            });
         }
+        
+    // $("#launch").click(function () {
+    //     $("#table-input").modal("show");
+    // });
     drawevErything(list);
     initLinks(list);
     dragNode(list);
