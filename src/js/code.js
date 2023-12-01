@@ -74,18 +74,47 @@ function simulate(g) {//
             transform: "rotate(" + (-angle) + "deg)"
         });
         } 
-        while($(".close").data('clicked')!=="yes"){
+        function setupTable(){
             let i=0;
             $("#add").click(function () {
                 i++;
                 $("#insert").append(`<tr>
                 <td><input class="form-control" type="text" placeholder="point ${i}" aria-label="point ${i}"></td>
                 <td>
-                <button type="button" class="btn btn-danger w-100 text-center" data-clicked=no>X</button>
+                <button type="button" id="delete" class="btn btn-danger w-100 text-center" data-clicked=no>X</button>
                 </button>
                 </td>
                 </tr>`);
             });
+            $("#insert").on("click", "#delete", ()=> {
+                $("#delete").closest("tr").remove();
+            });
+            // $("#save").click(()=>{
+            //     var inputs=[];
+            //     if($(".form-control").val()){
+            //         $(".form-control").each(()=>{
+            //             inputs.push($(this).val());
+            //         });
+            //     }
+            // });
+            // for(v of inputs){console.log(v);}
+            $("#save").click(() => {
+                var inputs=[];
+                $(".form-control").each(function () {
+                    if($(this).val()){
+                        let value=($(this).val().trim());
+                        if(inputs.includes(value)){
+                            $("#table-input").append(`<div class="alert alert-danger" role="alert">${value} is a duplicate</div>`)
+                            return;
+                        }
+                        inputs.push(value);
+                    }
+                });
+                for (let v of inputs) {
+                    console.log(v);
+                }
+            });
+            
         }
         
     // $("#launch").click(function () {
@@ -94,5 +123,6 @@ function simulate(g) {//
     drawevErything(list);
     initLinks(list);
     dragNode(list);
+    setupTable();
     // highlightDistance();
 }
