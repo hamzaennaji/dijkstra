@@ -96,6 +96,9 @@ function simulate(g) {//
                         let value=($(this).val().trim());
                         if(inputs.includes(value)){
                             // $("#table-input").append(`<div class="alert alert-danger" role="alert">${value} is a duplicate</div>`)
+                            if($("#errorMsg").hasClass('hide')&&$("#errorMsg").hasClass('fade')){
+                                $("#errorMsg").removeClass('hide').addClass('show').delay(2000).fadeIn().delay(2000).fadeOut();
+                            }
                             return;
                         }
                         inputs.push(value);

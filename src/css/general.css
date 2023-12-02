@@ -67,7 +67,6 @@ body{
 #errorMsg{
     background-color: rgb(226, 164, 169);
     border-color: rgb(134, 85, 89);
-    box-shadow: ;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -81,6 +80,4 @@ body{
     padding: 20px;
     margin: 20px 0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    display: none;
-    
 }
