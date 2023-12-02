@@ -86,25 +86,16 @@ function simulate(g) {//
                 </td>
                 </tr>`);
             });
-            $("#insert").on("click", "#delete", ()=> {
-                $("#delete").closest("tr").remove();
+            $("#insert").on("click", "#delete", function () {
+                $(this).closest("tr").remove();
             });
-            // $("#save").click(()=>{
-            //     var inputs=[];
-            //     if($(".form-control").val()){
-            //         $(".form-control").each(()=>{
-            //             inputs.push($(this).val());
-            //         });
-            //     }
-            // });
-            // for(v of inputs){console.log(v);}
-            $("#save").click(() => {
+            $("#save").click(function(){
                 var inputs=[];
                 $(".form-control").each(function () {
                     if($(this).val()){
                         let value=($(this).val().trim());
                         if(inputs.includes(value)){
-                            $("#table-input").append(`<div class="alert alert-danger" role="alert">${value} is a duplicate</div>`)
+                            // $("#table-input").append(`<div class="alert alert-danger" role="alert">${value} is a duplicate</div>`)
                             return;
                         }
                         inputs.push(value);
