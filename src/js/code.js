@@ -99,9 +99,11 @@ function simulate(g) {//
                             if($("#errorMsg").hasClass('hide')&&$("#errorMsg").hasClass('fade')){
                                 $("#errorMsg").removeClass('hide')
                                 .addClass('show')
-                                .fadeIn(800).delay(2000)
-                                .fadeOut(function(){
-                                    $(this).removeClass('show').addClass('hide');
+                                .css({opacity: 0, display: 'block'})
+                                .animate({opacity: 1}, 500)
+                                .delay(2000)
+                                .animate({opacity: 0}, 500, function () {
+                                    $(this).removeClass('show').addClass('hide').css('display', 'none')
                                 });
                             }
                             return;
