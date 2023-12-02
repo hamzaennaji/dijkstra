@@ -97,12 +97,17 @@ function simulate(g) {//
                         if(inputs.includes(value)){
                             // $("#table-input").append(`<div class="alert alert-danger" role="alert">${value} is a duplicate</div>`)
                             if($("#errorMsg").hasClass('hide')&&$("#errorMsg").hasClass('fade')){
-                                $("#errorMsg").removeClass('hide').addClass('show').delay(2000).fadeIn().delay(2000).fadeOut();
+                                $("#errorMsg").removeClass('hide')
+                                .addClass('show')
+                                .fadeIn(800).delay(2000)
+                                .fadeOut(function(){
+                                    $(this).removeClass('show').addClass('hide');
+                                });
                             }
                             return;
                         }
                         inputs.push(value);
-                    }
+                    }   
                 });
                 for (let v of inputs) {
                     console.log(v);
