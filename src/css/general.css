@@ -66,14 +66,14 @@ body{
 .table-bordered td, .table-bordered th{border: 1px solid #495057;}
 #errorMsg{
     opacity: 0;
-    background-color: #b9525c;
+    background-color: #f8d7da;
     border-color: #f5c6cb;
+    color: #721c24;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     transform-origin: center;
-    margin-top: 10%;
     width: 350px;
     border-radius: 10px;
     height: 79px;
@@ -81,4 +81,15 @@ body{
     padding: 20px;
     margin: 20px 0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    align-items: center;
+    justify-content: center;
+}
+#altertMsg{
+    text-align: center;
+    width: 100%;
+    font-size: large;
+}
+.close-popin{
+    cursor: pointer;
+    font-size: 20px;
 }

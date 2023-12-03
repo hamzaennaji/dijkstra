@@ -79,7 +79,7 @@ function simulate(g) {//
             $("#add").click(function () {
                 i++;
                 $("#insert").append(`<tr>
-                <td><input class="form-control" type="text" placeholder="point ${i}" aria-label="point ${i}"></td>
+                <td><input class="form-control" type="text" placeholder="point" aria-label="point"></td>
                 <td>
                 <button type="button" id="delete" class="btn btn-danger w-100 text-center" data-clicked=no>X</button>
                 </button>
@@ -90,47 +90,59 @@ function simulate(g) {//
                 $(this).closest("tr").remove();
             });
             $("#save").click(function(){
-                var inputs=[];
+                let inputs=[],
+                duplicates=[];
                 $(".form-control").each(function () {
                     if($(this).val()){
                         let value=($(this).val().trim());
-                        if(inputs.includes(value)){
-                            // $("#table-input").append(`<div class="alert alert-danger" role="alert">${value} is a duplicate</div>`)
-                            // if($("#errorMsg").hasClass('hide')&&$("#errorMsg").hasClass('fade')){
-                            //     $("#errorMsg").removeClass('hide')
-                            //     .addClass('show')
-                            //     .css({opacity: 0, display: 'block'})
-                            //     .animate({opacity: 1}, 500)
-                            //     .delay(2000)
-                            //     .animate({opacity: 0}, 500, function () {
-                            //         $(this).removeClass('show').addClass('hide').css('display', 'none')
-                            //     });
-                            // }
-                            throwErrors(`${value} is a duplicate`);
-                            return;
-                        }
                         inputs.push(value);
-                    }   
+                        if(inputs.indexOf(value)!==inputs.lastIndexOf(value)&&!duplicates.includes(value)){
+                            $(this).addClass("is-invalid");
+                            duplicates.push(value);
+                        }   
+                    }
+                    else{
+                        $(this).addClass("is-invalid");
+
+                        resetAnimationErrors();
+                        throwErrors(`Provide all the points`);
+                    }
                 });
-                for (let v of inputs) {
-                    console.log(v);
+                if(inputs.length===1){
+                    $(".form-control").addClass("is-invalid");
+                    resetAnimationErrors();
+                    throwErrors(`More than one point`);   
                 }
+                if(duplicates.length===1){
+                    resetAnimationErrors();
+                    throwErrors(`The point ${duplicates[0]} is a duplicate`);
+                }
+                else if(duplicates.length>1){
+                    resetAnimationErrors();
+                    throwErrors(`The points ${duplicates} are duplicates`);
+                }
+                console.log(inputs);
             });
-            
         }
+    function resetAnimationErrors(){
+        $("#errorMsg")
+        .stop(true, true)
+        .animate({opacity: 0}, 500);
+    }
     function throwErrors(error){
-        $("#errorMsg  > span").text(error);
+        resetAnimationErrors();
+        $("#errorMsg  :nth-child(2)").text(error).attr('id','altertMsg');
         if($("#errorMsg").hasClass('fade')){
             $("#errorMsg")
-            .css({opacity: 0, display: 'block'})
+            .css({opacity: 0, display: 'flex'})
             .animate({opacity: 1}, 500)
             .delay(2000)
-            .animate({opacity: 0}, 500);
+            .animate({opacity: 0}, 500);    
+            $(".close-popin").click(function(){
+                resetAnimationErrors();
+            });
         }
     }
-    // $("#launch").click(function () {
-    //     $("#table-input").modal("show");
-    // });
     drawevErything(list);
     initLinks(list);
     dragNode(list);
