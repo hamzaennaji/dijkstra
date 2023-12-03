@@ -96,16 +96,17 @@ function simulate(g) {//
                         let value=($(this).val().trim());
                         if(inputs.includes(value)){
                             // $("#table-input").append(`<div class="alert alert-danger" role="alert">${value} is a duplicate</div>`)
-                            if($("#errorMsg").hasClass('hide')&&$("#errorMsg").hasClass('fade')){
-                                $("#errorMsg").removeClass('hide')
-                                .addClass('show')
-                                .css({opacity: 0, display: 'block'})
-                                .animate({opacity: 1}, 500)
-                                .delay(2000)
-                                .animate({opacity: 0}, 500, function () {
-                                    $(this).removeClass('show').addClass('hide').css('display', 'none')
-                                });
-                            }
+                            // if($("#errorMsg").hasClass('hide')&&$("#errorMsg").hasClass('fade')){
+                            //     $("#errorMsg").removeClass('hide')
+                            //     .addClass('show')
+                            //     .css({opacity: 0, display: 'block'})
+                            //     .animate({opacity: 1}, 500)
+                            //     .delay(2000)
+                            //     .animate({opacity: 0}, 500, function () {
+                            //         $(this).removeClass('show').addClass('hide').css('display', 'none')
+                            //     });
+                            // }
+                            throwErrors(`${value} is a duplicate</div>`);
                             return;
                         }
                         inputs.push(value);
@@ -117,7 +118,16 @@ function simulate(g) {//
             });
             
         }
-        
+    function throwErrors(error){
+        if($("#errorMsg").hasClass('fade')){
+            $("#errorMsg")
+            .css({opacity: 0, display: 'block'})
+            .animate({opacity: 1}, 500)
+            .delay(2000)
+            .animate({opacity: 0}, 500)
+            $("#errorMsg").closest('span').text(error);
+        }
+    }
     // $("#launch").click(function () {
     //     $("#table-input").modal("show");
     // });

@@ -65,17 +65,18 @@ body{
   }
 .table-bordered td, .table-bordered th{border: 1px solid #495057;}
 #errorMsg{
-    background-color: rgb(226, 164, 169);
-    border-color: rgb(134, 85, 89);
+    opacity: 0;
+    background-color: #b9525c;
+    border-color: #f5c6cb;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     transform-origin: center;
     margin-top: 10%;
-    width: 55%;
+    width: 350px;
     border-radius: 10px;
-    height: 90px;
+    height: 79px;
     z-index: 100;
     padding: 20px;
     margin: 20px 0;
