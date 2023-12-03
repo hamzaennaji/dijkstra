@@ -59,12 +59,11 @@ function simulate(g) {
         let aY = $a.position().top + $a.height() / 2;
         let bX = $b.position().left + $b.width() / 2;
         let bY = $b.position().top + $b.height() / 2;
-        // gpt said : stick to the circle son!
-        // dont touch it! it's working!!
         let midX = (aX + bX) / 2;
         let midY = (aY + bY) / 2;
         let distance = Math.sqrt(Math.pow(bX - aX, 2) + Math.pow(bY - aY, 2));
-        let angle = Math.atan2(bY - aY, bX - aX) * (180 / Math.PI);
+        // gpt said : stick to the circle son!
+        let angle = Math.atan2(bY - aY, bX - aX) * (180 / Math.PI);// dont touch it! it's working!!
         $link.css({
           left: midX - distance / 2,
           top: midY - $link.height() / 2,
@@ -85,6 +84,7 @@ function simulate(g) {
                 <button type="button" id="delete" class="btn btn-danger w-100 text-center" data-clicked=no>✖</button>
                 </td>
                 </tr>`);
+            $(this).trigger("blur");
             });
 
             $("#insert").on("click", "#delete", function () {
@@ -105,11 +105,13 @@ function simulate(g) {
                     }
                     else{
                         $(this).addClass("is-invalid");
-                        resetAnimationErrors();
-                        throwErrors(`Provide all the points`);
                     }
                 });
-                if(inputs.length===1){
+                if(inputs.length===0){
+                    resetAnimationErrors();
+                    throwErrors(`Provide all the points`);
+                }
+                else if(inputs.length===1){
                     $(".form-control").addClass("is-invalid");
                     resetAnimationErrors();
                     throwErrors(`More than one point`);   
@@ -128,10 +130,41 @@ function simulate(g) {
                     for(let i of inputs){
                         g.nodes_list(i);
                     }
+                    $("#insert").addClass("d-none");
+                    $("#insert-links").removeClass("d-none");
+                    $("#back").removeClass("d-none");
+                    $(".form-control").removeClass("is-invalid");
+                    $("#p-weight").on("keypress", function(){
+                        $('select').removeAttr('disabled');
+                        for(let i of inputs){
+                            $("#p-source").append(`<option>${i}</option>`);
+                            $("#p-link").append(`<option>${i}</option>`);
+                            $("#insert-links").append(`
+                            <tr>
+                                <td>
+                                    <select id="p-source"class="form-select">
+                                    <option>${i}</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input id="p-weight" class="form-control" type="text" placeholder="weight">
+                                </td>
+                                <td>
+                                    <select id="p-link" class="form-select">
+                                        <option>${i}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            `)
+                        }
+                    });
                     console.log(g.nodes);
+                    console.table(g);
                 }
+                $(this).trigger("blur");
             });
     }
+
     function resetAnimationErrors(){
         $("#errorMsg")
         .stop(true, true)
