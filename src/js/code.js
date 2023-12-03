@@ -1,4 +1,4 @@
-function simulate(g) {//
+function simulate(g) {
     let list=g.nodeList;
     // let neighbors=[];
     function drawevErything(list){
@@ -20,7 +20,7 @@ function simulate(g) {//
             }
         }
     }
-    
+
     // initiate links with each node
     function initLinks(list){
         for(let node in list){
@@ -53,6 +53,7 @@ function simulate(g) {//
             console.table(Object.keys(path)[Object.keys(path).indexOf(k)+1]);
         }
     }
+
     function updateLinks($link, $a, $b) {
         let aX = $a.position().left + $a.width() / 2;
         let aY = $a.position().top + $a.height() / 2;
@@ -73,22 +74,23 @@ function simulate(g) {//
         $link.find(".weight").css({
             transform: "rotate(" + (-angle) + "deg)"
         });
-        } 
-        function setupTable(){
-            let i=0;
+    } 
+
+    function setupTable(){
+            $(".form-control").each(function(){$(this).val('')});
             $("#add").click(function () {
-                i++;
                 $("#insert").append(`<tr>
                 <td><input class="form-control" type="text" placeholder="point" aria-label="point"></td>
                 <td>
-                <button type="button" id="delete" class="btn btn-danger w-100 text-center" data-clicked=no>X</button>
-                </button>
+                <button type="button" id="delete" class="btn btn-danger w-100 text-center" data-clicked=no>✖</button>
                 </td>
                 </tr>`);
             });
+
             $("#insert").on("click", "#delete", function () {
                 $(this).closest("tr").remove();
             });
+
             $("#save").click(function(){
                 let inputs=[],
                 duplicates=[];
@@ -103,7 +105,6 @@ function simulate(g) {//
                     }
                     else{
                         $(this).addClass("is-invalid");
-
                         resetAnimationErrors();
                         throwErrors(`Provide all the points`);
                     }
@@ -113,7 +114,7 @@ function simulate(g) {//
                     resetAnimationErrors();
                     throwErrors(`More than one point`);   
                 }
-                if(duplicates.length===1){
+                else if(duplicates.length===1){
                     resetAnimationErrors();
                     throwErrors(`The point ${duplicates[0]} is a duplicate`);
                 }
@@ -121,14 +122,22 @@ function simulate(g) {//
                     resetAnimationErrors();
                     throwErrors(`The points ${duplicates} are duplicates`);
                 }
-                console.log(inputs);
+                else{
+                    g.nodes=[];
+                    g.nodeList = {};
+                    for(let i of inputs){
+                        g.nodes_list(i);
+                    }
+                    console.log(g.nodes);
+                }
             });
-        }
+    }
     function resetAnimationErrors(){
         $("#errorMsg")
         .stop(true, true)
         .animate({opacity: 0}, 500);
     }
+
     function throwErrors(error){
         resetAnimationErrors();
         $("#errorMsg  :nth-child(2)").text(error).attr('id','altertMsg');
@@ -143,6 +152,7 @@ function simulate(g) {//
             });
         }
     }
+
     drawevErything(list);
     initLinks(list);
     dragNode(list);
