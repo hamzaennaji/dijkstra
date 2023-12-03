@@ -106,7 +106,7 @@ function simulate(g) {//
                             //         $(this).removeClass('show').addClass('hide').css('display', 'none')
                             //     });
                             // }
-                            throwErrors(`${value} is a duplicate</div>`);
+                            throwErrors(`${value} is a duplicate`);
                             return;
                         }
                         inputs.push(value);
@@ -119,13 +119,13 @@ function simulate(g) {//
             
         }
     function throwErrors(error){
+        $("#errorMsg  > span").text(error);
         if($("#errorMsg").hasClass('fade')){
             $("#errorMsg")
             .css({opacity: 0, display: 'block'})
             .animate({opacity: 1}, 500)
             .delay(2000)
-            .animate({opacity: 0}, 500)
-            $("#errorMsg").closest('span').text(error);
+            .animate({opacity: 0}, 500);
         }
     }
     // $("#launch").click(function () {
