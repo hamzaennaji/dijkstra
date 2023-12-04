@@ -134,35 +134,25 @@ function simulate(g) {
                     $("#insert-links").removeClass("d-none");
                     $("#back").removeClass("d-none");
                     $(".form-control").removeClass("is-invalid");
-                    $("#p-weight").on("keypress", function(){
-                        $('select').removeAttr('disabled');
-                        for(let i of inputs){
-                            $("#p-source").append(`<option>${i}</option>`);
-                            $("#p-link").append(`<option>${i}</option>`);
-                            $("#insert-links").append(`
-                            <tr>
-                                <td>
-                                    <select id="p-source"class="form-select">
-                                    <option>${i}</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <input id="p-weight" class="form-control" type="text" placeholder="weight">
-                                </td>
-                                <td>
-                                    <select id="p-link" class="form-select">
-                                        <option>${i}</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            `)
-                        }
-                    });
+                    optionsVal(inputs, "#insert-links");//default one
                     console.log(g.nodes);
                     console.table(g);
                 }
                 $(this).trigger("blur");
             });
+    }
+
+    function optionsVal(inputs, id){
+        $(id+' > tbody  > tr').each(function() {
+            for(let i of inputs){
+                $(this).find(".p-source").append(`<option>${i}</option>`).removeAttr('disabled');
+                $(this).find(".p-link").append(`<option>${i}</option>`).removeAttr('disabled');
+            }
+        });
+    }
+
+    function getVal(array) {
+        return array.map(item => `<option>${item}</option>`).join('');
     }
 
     function resetAnimationErrors(){
