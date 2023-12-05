@@ -137,22 +137,21 @@ function simulate(g) {
                     optionsVal(inputs, "#insert-links");//default one
                     $("#add").on('click',function(){
                         $("#insert-links tbody").append(`
-                        <tr>
-                            <td>
-                                <select class="form-select">
-                                    ${optionsVal(inputs, "#insert-links")}
-                                </select>
-                            </td>
-                            <td>
-                                <input class="form-control p-weight" type="text" placeholder="weight" aria-label="weight">
-                            </td>
-                            <td>
-                                <select class="form-select">
-                                    ${optionsVal(inputs, "#insert-links")}
-                                </select>
-                            </td>
-                        </tr>
-                    `);
+							<tr>
+								<td>
+									<select class="form-select p-source">
+									</select>
+								</td>
+								<td>
+									<input class="form-control p-weight" type="text" placeholder="weight" aria-label="weight">
+								</td>
+								<td>
+									<select class="form-select p-link">
+									</select>
+								</td>
+							</tr>
+						`);
+						optionsVal(inputs, "#insert-links");
                     })
                     console.log(g.nodes);
                     console.table(g);
@@ -162,7 +161,7 @@ function simulate(g) {
     }
 
     function optionsVal(inputs, id){
-        $(id+' > tbody  > tr').each(function() {
+        $(id+' > tbody > tr').each(function() {
             $(this).find(".p-source").find('option').remove();
             $(this).find(".p-link").find('option').remove();
             for(let i of inputs){

@@ -88,10 +88,12 @@
         g.nodes_list('B');
         g.nodes_list('C');
         g.nodes_list('D');
+        g.nodes_list('F');
         g.addLink('A', 'B', 3);
         g.addLink('A', 'C', 2);
         g.addLink('C', 'D', 6);
         g.addLink('B', 'D', 2);
+        g.addLink('D', 'F', 4);
 
         g.dijkstra('A');
         simulate(g);
