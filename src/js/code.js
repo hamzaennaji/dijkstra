@@ -160,16 +160,16 @@ function simulate(g) {
             });
     }
 
-    function optionsVal(inputs, id){
-        $(id+' > tbody > tr').each(function() {
-            $(this).find(".p-source").find('option').remove();
-            $(this).find(".p-link").find('option').remove();
-            for(let i of inputs){
-                $(this).find(".p-source").append(`<option>${i}</option>`).removeAttr('disabled');
-                $(this).find(".p-link").append(`<option>${i}</option>`).removeAttr('disabled');
-            }
-        });
-    }
+    // function optionsVal(inputs, id){
+    //     $(id+' > tbody > tr').each(function() {
+    //         $(this).find(".p-source").find('option').remove();
+    //         $(this).find(".p-link").find('option').remove();
+    //         for(let i of inputs){
+    //             $(this).find(".p-source").append(`<option>${i}</option>`).removeAttr('disabled');
+    //             $(this).find(".p-link").append(`<option>${i}</option>`).removeAttr('disabled');
+    //         }
+    //     });
+    // }ss
 
     function getVal(array) {
         return array.map(item => `<option>${item}</option>`).join('');
