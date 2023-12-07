@@ -90,6 +90,10 @@ function simulate(g) {
             $("#insert").on("click", "#delete", function () {
                 $(this).closest("tr").remove();
             });
+            
+            $("#insert-links").on("click", "#delete", function () {
+                $(this).closest("tr").remove();
+            });
 
             $("#save").click(function(){
                 let inputs=[],
@@ -130,6 +134,7 @@ function simulate(g) {
                     for(let i of inputs){
                         g.nodes_list(i);
                     }
+                    $("#exampleModalLabel").text("Link all the points");
                     $("#insert").addClass("d-none");
                     $("#insert-links").removeClass("d-none");
                     $("#back").removeClass("d-none");
@@ -137,39 +142,78 @@ function simulate(g) {
                     optionsVal(inputs, "#insert-links");//default one
                     $("#add").on('click',function(){
                         $("#insert-links tbody").append(`
-							<tr>
-								<td>
-									<select class="form-select p-source">
-									</select>
-								</td>
-								<td>
-									<input class="form-control p-weight" type="text" placeholder="weight" aria-label="weight">
-								</td>
-								<td>
-									<select class="form-select p-link">
-									</select>
-								</td>
-							</tr>
-						`);
-						optionsVal(inputs, "#insert-links");
-                    })
+                        <tr>
+						<td>
+							<select class="form-select p-source">
+							</select>
+						</td>
+						<td>
+							<input class="form-control p-weight" type="text" placeholder="weight" aria-label="weight">
+						</td>
+						<td>
+                        <select class="form-select p-link">
+                        </select>
+						</td>
+						<td>
+                        <button type="button" id="delete" class="btn btn-danger w-100 text-center" data-clicked=no>✖</button>
+						</td>
+                        </tr>
+                        `);
+                    });
+                    optionsVal(inputs, "#insert-links");
+                    $("#back").on('click',function(){
+                        $("#insert-links").addClass("d-none");
+                        $("#insert").removeClass("d-none");
+                        $('.form-control').each(function(){
+                            if(!$(this).val()){
+                                $(this).closest('tr').remove();}
+                        });
+                    });
+
+
                     console.log(g.nodes);
                     console.table(g);
                 }
                 $(this).trigger("blur");
             });
+            $("#save").on("click", function(){
+                $('#insert-links > tbody > tr').each(function() {
+                    let source=$(this).find(".p-source");
+                    let link=$(this).find(".p-link");
+                    let linkOpt=link.find("option");
+                    let sourceOpt=link.find("option");
+                    if(linkOpt.text()===sourceOpt.text()){
+                        throwErrors("impossible to link point with itself!");
+                    }
+                });
+            });
     }
 
-    // function optionsVal(inputs, id){
-    //     $(id+' > tbody > tr').each(function() {
-    //         $(this).find(".p-source").find('option').remove();
-    //         $(this).find(".p-link").find('option').remove();
-    //         for(let i of inputs){
-    //             $(this).find(".p-source").append(`<option>${i}</option>`).removeAttr('disabled');
-    //             $(this).find(".p-link").append(`<option>${i}</option>`).removeAttr('disabled');
-    //         }
-    //     });
-    // }ss
+    function optionsVal(inputs, id){
+        $(id + ' > tbody > tr').each(function() {
+            const $pSource = $(this).find(".p-source");
+            const $pLink = $(this).find(".p-link");
+
+            // Get the current options
+            const existingOptions = $pSource.find('option').map(function() {
+                return $(this).text();
+            }).get();
+
+            // Append only new options to p-source
+            for (let i of inputs) {
+                if (!existingOptions.includes(i)) {
+                    $pSource.append(`<option>${i}</option>`).removeAttr('disabled');
+                }
+            }
+
+            // Append only new options to p-link
+            for (let i of inputs) {
+                if (!existingOptions.includes(i)) {
+                    $pLink.append(`<option>${i}</option>`).removeAttr('disabled');
+                }
+            }
+        });
+    }
 
     function getVal(array) {
         return array.map(item => `<option>${item}</option>`).join('');

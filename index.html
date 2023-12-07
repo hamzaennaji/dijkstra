@@ -47,9 +47,10 @@
                             </table>
                             <table id="insert-links" class="table table-bordered table-sm d-none">
                                 <tr>
-                                    <td>source</td>
-                                    <td>weight</td>
-                                    <td>link</td>
+                                    <th>source</th>
+                                    <th>weight</th>
+                                    <th>link</th>
+                                    <th>delete</th>
                                 </tr>
                                 <tr>
                                     <td>
@@ -60,6 +61,9 @@
                                     </td>
                                     <td>
                                         <select class="form-select p-link" aria-label="" disabled></select>
+                                    </td>
+                                    <td>
+                                        <button type="button" id="delete" class="btn btn-danger w-100 text-center" data-clicked=no>✖</button>
                                     </td>
                                 </tr>
                             </table>
