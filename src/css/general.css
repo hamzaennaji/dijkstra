@@ -65,7 +65,6 @@ body{
   }
 .table-bordered td, .table-bordered th{border: 1px solid #495057;}
 #errorMsg{
-    opacity: 0;
     background-color: #f8d7da;
     border-color: #f5c6cb;
     color: #721c24;
@@ -83,6 +82,8 @@ body{
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     align-items: center;
     justify-content: center;
+    opacity: 0;
+    display: none;
 }
 #altertMsg{
     text-align: center;

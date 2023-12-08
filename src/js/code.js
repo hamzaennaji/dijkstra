@@ -20,7 +20,6 @@ function simulate(g) {
             }
         }
     }
-
     // initiate links with each node
     function initLinks(list){
         for(let node in list){
@@ -31,7 +30,6 @@ function simulate(g) {
             }
         }
     }
-
     function dragNode(list){
         $(".node").draggable({
             containment: "#field", 
@@ -46,14 +44,12 @@ function simulate(g) {
             }
         });    
     }
-
     function highlightDistance(){
         let path=g.dijkstra(g.nodes[0])["distances"];
         for(let k of Object.keys(path)){
             console.table(Object.keys(path)[Object.keys(path).indexOf(k)+1]);
         }
     }
-
     function updateLinks($link, $a, $b) {
         let aX = $a.position().left + $a.width() / 2;
         let aY = $a.position().top + $a.height() / 2;
@@ -74,9 +70,9 @@ function simulate(g) {
             transform: "rotate(" + (-angle) + "deg)"
         });
     } 
-
     function setupTable(){
             $(".form-control").each(function(){$(this).val('')});
+
             $("#add").click(function () {
                 $("#insert").append(`<tr>
                 <td><input class="form-control" type="text" placeholder="point" aria-label="point"></td>
@@ -90,13 +86,13 @@ function simulate(g) {
             $("#insert").on("click", "#delete", function () {
                 $(this).closest("tr").remove();
             });
-            
-            $("#insert-links").on("click", "#delete", function () {
+
+            $("#insert-links").on("click", "#delete2", function () {
                 $(this).closest("tr").remove();
             });
-
+            let inputs = [];
             $("#save").click(function(){
-                let inputs=[],
+                inputs=[],
                 duplicates=[];
                 $(".form-control").each(function () {
                     if($(this).val()){
@@ -137,76 +133,67 @@ function simulate(g) {
                     $("#exampleModalLabel").text("Link all the points");
                     $("#insert").addClass("d-none");
                     $("#insert-links").removeClass("d-none");
+                    $("#add").addClass("d-none");
+                    $("#save").addClass("d-none");
                     $("#back").removeClass("d-none");
+                    $("#save2").removeClass("d-none");
+                    $("#add2").removeClass("d-none");
                     $(".form-control").removeClass("is-invalid");
                     optionsVal(inputs, "#insert-links");//default one
-                    $("#add").on('click',function(){
-                        $("#insert-links tbody").append(`
-                        <tr>
-						<td>
-							<select class="form-select p-source">
-							</select>
-						</td>
-						<td>
-							<input class="form-control p-weight" type="text" placeholder="weight" aria-label="weight">
-						</td>
-						<td>
-                        <select class="form-select p-link">
-                        </select>
-						</td>
-						<td>
-                        <button type="button" id="delete" class="btn btn-danger w-100 text-center" data-clicked=no>✖</button>
-						</td>
-                        </tr>
-                        `);
-                    });
-                    optionsVal(inputs, "#insert-links");
                     $("#back").on('click',function(){
+                        $("#add2").addClass("d-none");
+                        $("#save2").addClass("d-none");
+                        $("#save").removeClass("d-none");
+                        $("#add").removeClass("d-none");
                         $("#insert-links").addClass("d-none");
                         $("#insert").removeClass("d-none");
-                        $('.form-control').each(function(){
-                            if(!$(this).val()){
-                                $(this).closest('tr').remove();}
-                        });
+                        $(this).addClass("d-none");
                     });
-
-
                     console.log(g.nodes);
                     console.table(g);
                 }
                 $(this).trigger("blur");
-            });
-            $("#save").on("click", function(){
-                $('#insert-links > tbody > tr').each(function() {
-                    let source=$(this).find(".p-source");
-                    let link=$(this).find(".p-link");
-                    let linkOpt=link.find("option");
-                    let sourceOpt=link.find("option");
-                    if(linkOpt.text()===sourceOpt.text()){
-                        throwErrors("impossible to link point with itself!");
-                    }
-                });
+            }); 
+            
+            $("#add2").on('click',function(){
+                $("#insert-links tbody").append(`
+                    <tr>
+                        <td>
+                            <select class="form-select p-source">
+                            </select>
+                        </td>
+                        <td>
+                            <input class="form-control p-weight" type="text" placeholder="weight" aria-label="weight">
+                        </td>
+                        <td>
+                            <select class="form-select p-link">
+                            </select>
+                        </td>
+                        <td>
+                        <button type="button" id="delete2" class="btn btn-danger w-100 text-center" data-clicked=no>✖</button>
+                        </td>
+                    </tr>
+                `);
+                optionsVal(inputs, "#insert-links");
+                $(this).trigger("blur");
             });
     }
-
+//100% working version
     function optionsVal(inputs, id){
         $(id + ' > tbody > tr').each(function() {
             const $pSource = $(this).find(".p-source");
             const $pLink = $(this).find(".p-link");
-
-            // Get the current options
+            //getiing the current options
             const existingOptions = $pSource.find('option').map(function() {
                 return $(this).text();
             }).get();
-
-            // Append only new options to p-source
+            //adding only new options to p-source
             for (let i of inputs) {
                 if (!existingOptions.includes(i)) {
                     $pSource.append(`<option>${i}</option>`).removeAttr('disabled');
                 }
             }
-
-            // Append only new options to p-link
+            //same for p-source
             for (let i of inputs) {
                 if (!existingOptions.includes(i)) {
                     $pLink.append(`<option>${i}</option>`).removeAttr('disabled');
@@ -214,15 +201,24 @@ function simulate(g) {
             }
         });
     }
+    // function optionsVal(inputs, id){
+    //     $(id+' > tbody > tr').each(function() {
+    //         $(this).find(".p-source").find('option').remove();
+    //         $(this).find(".p-link").find('option').remove();
+    //         for(let i of inputs){
+    //             $(this).find(".p-source").append(`<option>${i}</option>`).removeAttr('disabled');
+    //             $(this).find(".p-link").append(`<option>${i}</option>`).removeAttr('disabled');
+    //         }
+    //     });
+    // }ss
 
     function getVal(array) {
         return array.map(item => `<option>${item}</option>`).join('');
     }
-
     function resetAnimationErrors(){
         $("#errorMsg")
         .stop(true, true)
-        .animate({opacity: 0}, 500);
+        .animate({opacity: 0}, 250);
     }
 
     function throwErrors(error){
@@ -231,11 +227,16 @@ function simulate(g) {
         if($("#errorMsg").hasClass('fade')){
             $("#errorMsg")
             .css({opacity: 0, display: 'flex'})
-            .animate({opacity: 1}, 500)
+            .animate({opacity: 1}, 200)
             .delay(2000)
-            .animate({opacity: 0}, 500);    
+            .animate({opacity: 0}, 250,function(){
+                $(this).css('display', 'none');
+            });    
             $(".close-popin").click(function(){
                 resetAnimationErrors();
+                $("#errorMsg").animate({opacity: 0}, 250,function(){
+                    $(this).css('display', 'none');
+                }); 
             });
         }
     }
