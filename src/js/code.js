@@ -160,7 +160,7 @@ function simulate(g) {
                     <tr>
                         <td>
                             <select class="form-select p-source">
-                            </select>
+                           </select>
                         </td>
                         <td>
                             <input class="form-control p-weight" type="text" placeholder="weight" aria-label="weight">
@@ -177,7 +177,24 @@ function simulate(g) {
                 optionsVal(inputs, "#insert-links");
                 $(this).trigger("blur");
             });
+
+            $("#save2").on("click", function(){
+                $('#insert-links > tbody > tr').each(function() {
+                    const pSource = $(this).find(".p-source");
+                    const pLink = $(this).find(".p-link");
+                    const pWeight = $(this).find(".p-weight");
+                    if(pSource.val()===pLink.val()){
+                        pWeight.addClass("is-invalid");
+                        throwErrors("can't link a point with itself!");
+                    }
+                    else{
+                        g.addLink(pSource.val(), pLink.val(), pWeight.val());
+                    }
+                });
+                console.info(g.dijkstra('x'));
+            });
     }
+    drawevErything(g.nodeList);
 //100% working version
     function optionsVal(inputs, id){
         $(id + ' > tbody > tr').each(function() {
