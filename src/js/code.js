@@ -153,7 +153,7 @@ function simulate(g) {
                     console.table(g);
                 }
                 $(this).trigger("blur");
-            }); 
+            });
             
             $("#add2").on('click',function(){
                 $("#insert-links tbody").append(`
@@ -178,23 +178,44 @@ function simulate(g) {
                 $(this).trigger("blur");
             });
 
-            $("#save2").on("click", function(){
-                $('#insert-links > tbody > tr').each(function() {
-                    const pSource = $(this).find(".p-source");
-                    const pLink = $(this).find(".p-link");
-                    const pWeight = $(this).find(".p-weight");
-                    if(pSource.val()===pLink.val()){
-                        pWeight.addClass("is-invalid");
-                        throwErrors("can't link a point with itself!");
-                    }
-                    else{
-                        g.addLink(pSource.val(), pLink.val(), pWeight.val());
+            $("#save2").on("click", function () {
+                let sourceLinkPairs = new Set();
+                $('#insert-links > tbody > tr').each(function () {
+                    let pSource = $(this).find(".p-source");
+                    let pLink = $(this).find(".p-link");
+                    let pWeight = $(this).find(".p-weight");
+                    if (pSource.val() && pLink.val()) {
+                        let pair = `${pSource.val()}-${pLink.val()}`;
+                        let ipair = `${pLink.val()}-${pSource.val()}`;
+                        if (!$(this).find(".p-weight").val()){
+                            pWeight.addClass("is-invalid");
+                            throwErrors(`Provide the value!`);
+                        }
+                        else if(pLink.val()===pSource.val()){
+                            resetAnimationErrors();
+                            throwErrors(`Can't link ${pLink.val()} with itself !`);
+                        }
+                        else if(sourceLinkPairs.has(pair)||sourceLinkPairs.has(ipair)) {
+                            pWeight.addClass("is-invalid");
+                            resetAnimationErrors();
+                            throwErrors(`${pair} Duplicate row!`);
+                        } else {
+                            g.addLink(pSource.val(), pLink.val(), +$(this).find(".p-weight").val());
+                            console.log(g.dijkstra(g.nodes[0])["distances"]);
+                            $("#save2").attr('data-dismiss', 'modal');
+                            $("#field").empty();
+                            drawevErything(g.nodeList);
+                            initLinks(g.nodeList);
+                            dragNode(g.nodeList);
+                        }
+                        sourceLinkPairs.add(pair);
+                        sourceLinkPairs.add(ipair);
                     }
                 });
-                console.info(g.dijkstra('x'));
             });
+            console.log(g.dijkstra(g.nodes[0])["distances"]);
     }
-    drawevErything(g.nodeList);
+    // drawevErything(g.nodeList);
 //100% working version
     function optionsVal(inputs, id){
         $(id + ' > tbody > tr').each(function() {
