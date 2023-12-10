@@ -42,7 +42,7 @@ function simulate(g) {
                     }
                 }
             }
-        });    
+        });
     }
     function highlightDistance(){
         let path=g.dijkstra(g.nodes[0])["distances"];
@@ -282,6 +282,8 @@ function simulate(g) {
     drawevErything(list);
     initLinks(list);
     dragNode(list);
+    $('.node').addClass('show-border');
+    $('.link').addClass('show-arrow');
     setupTable();
     // highlightDistance();
 }
