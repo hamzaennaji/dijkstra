@@ -44,12 +44,6 @@ function simulate(g) {
             }
         });
     }
-    function highlightDistance(){
-        let path=g.dijkstra(g.nodes[0])["distances"];
-        for(let k of Object.keys(path)){
-            console.table(Object.keys(path)[Object.keys(path).indexOf(k)+1]);
-        }
-    }
     function updateLinks($link, $a, $b) {
         let aX = $a.position().left + $a.width() / 2;
         let aY = $a.position().top + $a.height() / 2;
@@ -149,8 +143,8 @@ function simulate(g) {
                         $("#insert").removeClass("d-none");
                         $(this).addClass("d-none");
                     });
-                    console.log(g.nodes);
-                    console.table(g);
+                    // console.log(g.nodes);
+                    // console.table(g);
                 }
                 $(this).trigger("blur");
             });
@@ -201,7 +195,6 @@ function simulate(g) {
                             throwErrors(`${pair} Duplicate row!`);
                         } else {
                             g.addLink(pSource.val(), pLink.val(), +$(this).find(".p-weight").val());
-                            console.log(g.dijkstra(g.nodes[0])["distances"]);
                             $("#save2").attr('data-dismiss', 'modal');
                             $("#field").empty();
                             drawevErything(g.nodeList);
@@ -212,9 +205,32 @@ function simulate(g) {
                         sourceLinkPairs.add(ipair);
                     }
                 });
+                let distances=g.dijkstra(g.nodes[0])["distances"];
+                let parents=g.dijkstra(g.nodes[0])["parents"];
+                let path=getDijkstraPath(parents);
+                $("#field > .link").each(function(){
+                    if(path.has($(this).attr("id"))){
+                        $(this).addClass('show-arrow')
+                        $(this).css({ 'background-color': '#0FCCB2' });
+                    }
+                });
+                $('.node').addClass('show-border');
+                // $('.link').addClass('show-arrow');
+                console.log(distances);
+                console.log(parents);
+                // console.log(getDijkstraPath(parents));
             });
-            console.log(g.dijkstra(g.nodes[0])["distances"]);
     }
+    function getDijkstraPath(x){
+        let path=new Set();
+        for(let k of Object.keys(x)){
+            if (x[k]!==null){
+                path.add(x[k]+'-'+k);
+            }
+        }
+        return path;
+    }
+
     // drawevErything(g.nodeList);
 //100% working version
     function optionsVal(inputs, id){

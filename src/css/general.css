@@ -68,11 +68,11 @@ body{
     width: 98%;
     height: 15px;
     z-index: 2;
-    background-image: url('./../imgs/la-fleche.png');
+    background-image: url('./../imgs/arrow-default.png');
     background-size: contain;
     background-repeat: no-repeat;
     animation: moveLinearly 1.5s ease-in-out infinite;
-    animation-fill-mode: forwards;
+    animation-fill-mode: forwards;  
   }
 .link.show-arrow::before {
     display: block;
@@ -97,6 +97,7 @@ body{
     height: 50px;
     margin-left: 40%;
 }
+
 .close {
     font-size: 1.5rem;
     font-weight: 700;
