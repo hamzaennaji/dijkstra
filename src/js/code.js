@@ -275,25 +275,31 @@ function simulate(g) {
                     let distances = g.dijkstra(g.nodes[0])["distances"];
                     let parents = g.dijkstra(g.nodes[0])["parents"];
                     let path = getDijkstraPath(parents);
+                    let sum=0;
                     $("#field > .link").each(function () {
                         if (path.has($(this).attr("id"))) {
+                            sum+=+$(this).find(".weight").text();
                             $(this).addClass('show-arrow')
                             $(this).css({ 'background-color': '#0FCCB2' });
                         }
                     });
                     $('#'+g.nodes[0]).addClass('show-border');
                     console.log(distances);
+                    console.log(parents);
                     let res = g.dijkstra(g.nodes[0])["distances"];
-                    let resultString = "";
-                    let sum=0
+                    let resultString = `${g.nodes[0]}->0, `;
                     for (let key in res) {
-                        if (distances.hasOwnProperty(key)) {
+                        if (distances.hasOwnProperty(key)&&distances[key]!==0) {
                             resultString += key + " -> " + distances[key] + ", ";
                         }
-                        sum+=res[key];
                     }
-                    $('#res > p').text(resultString);
-                    $('#res').append(`<hr><p><b>Shortest path value:</b> ${sum}</p>`);
+                    $("#res").empty();
+                    $('#res').append(`
+                    <h4 class="alert-heading">Dijkstra path:</h4>
+                    <p ${resultString}</p>
+                    <hr
+                    p><b>Shortest path value:</b> ${sum}</p>
+                    `);
                     $('#res').removeClass("d-none");
                 }
                 $(this).trigger("blur");
