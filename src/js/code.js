@@ -122,6 +122,7 @@ function simulate(g) {
                     g.nodes=[];
                     g.nodeList = {};
                     for(let i of inputs){
+                        console.log(i);
                         g.nodes_list(i);
                     }
                     $("#exampleModalLabel").text("Link all the points");
@@ -141,6 +142,12 @@ function simulate(g) {
                         $("#add").removeClass("d-none");
                         $("#insert-links").addClass("d-none");
                         $("#insert").removeClass("d-none");
+                        clearWeight("#insert-links");
+                        $('#insert-links > tbody > tr').each(function() {
+                            $(this).find(".p-source").empty();
+                            $(this).find(".p-link").empty();  
+                        });
+                        $("#exampleModalLabel").text("insert all the points");
                         $(this).addClass("d-none");
                     });
                     // console.log(g.nodes);
@@ -171,8 +178,11 @@ function simulate(g) {
                 optionsVal(inputs, "#insert-links");
                 $(this).trigger("blur");
             });
+            function clearWeight(tableId) {
+                $(tableId + ' tbody .p-weight').val('');
+            }
 
-            $("#save2").on("click", function () {
+            /* $("#save2").on("click", function () {
                 let sourceLinkPairs = new Set();
                 $('#insert-links > tbody > tr').each(function () {
                     let pSource = $(this).find(".p-source");
@@ -193,13 +203,14 @@ function simulate(g) {
                             pWeight.addClass("is-invalid");
                             resetAnimationErrors();
                             throwErrors(`${pair} Duplicate row!`);
-                        } else {
-                            g.addLink(pSource.val(), pLink.val(), +$(this).find(".p-weight").val());
-                            $("#save2").attr('data-dismiss', 'modal');
-                            $("#field").empty();
-                            drawevErything(g.nodeList);
-                            initLinks(g.nodeList);
-                            dragNode(g.nodeList);
+                        }
+                        else{
+                        g.addLink(pSource.val(), pLink.val(), +$(this).find(".p-weight").val());
+                        $("#save2").attr('data-dismiss', 'modal');
+                        $("#field").empty();
+                        drawevErything(g.nodeList);
+                        initLinks(g.nodeList);
+                        dragNode(g.nodeList);
                         }
                         sourceLinkPairs.add(pair);
                         sourceLinkPairs.add(ipair);
@@ -219,8 +230,77 @@ function simulate(g) {
                 console.log(distances);
                 console.log(parents);
                 // console.log(getDijkstraPath(parents));
+            }); */
+            // 100% working version
+            $("#save2").on("click", function () {
+                let sourceLinkPairs = new Set();
+                let err = false;
+                $('#insert-links > tbody > tr').each(function () {
+                    let pSource = $(this).find(".p-source");
+                    let pLink = $(this).find(".p-link");
+                    let pWeight = $(this).find(".p-weight");
+                    if (pSource.val() && pLink.val()) {
+                        let pair = `${pSource.val()}-${pLink.val()}`;
+                        let ipair = `${pLink.val()}-${pSource.val()}`;
+                        if (!pWeight.val()) {
+                            pWeight.addClass("is-invalid");
+                            throwErrors(`Provide the value!`);
+                            err = true;
+                        } else if(+pWeight.val()<0){
+                            pWeight.addClass("is-invalid");
+                            throwErrors(`Negative values aren't allowed!`);
+                            err = true;
+                        } else if (pLink.val() === pSource.val()) {
+                            resetAnimationErrors();
+                            throwErrors(`Can't link ${pLink.val()} with itself !`);
+                            err = true;
+                        } else if (sourceLinkPairs.has(pair)||sourceLinkPairs.has(ipair)) {
+                            pWeight.addClass("is-invalid");
+                            resetAnimationErrors();
+                            throwErrors(`${pair} Duplicate row!`);
+                            err = true;
+                        } else {
+                            g.addLink(pSource.val(), pLink.val(), +pWeight.val());
+                            sourceLinkPairs.add(pair);
+                            sourceLinkPairs.add(ipair);
+                        }
+                    }
+                });
+                if (!err) {
+                    $("#save2").attr('data-dismiss', 'modal');
+                    $("#field").empty();
+                    drawevErything(g.nodeList);
+                    initLinks(g.nodeList);
+                    dragNode(g.nodeList);
+                    let distances = g.dijkstra(g.nodes[0])["distances"];
+                    let parents = g.dijkstra(g.nodes[0])["parents"];
+                    let path = getDijkstraPath(parents);
+                    $("#field > .link").each(function () {
+                        if (path.has($(this).attr("id"))) {
+                            $(this).addClass('show-arrow')
+                            $(this).css({ 'background-color': '#0FCCB2' });
+                        }
+                    });
+                    $('#'+g.nodes[0]).addClass('show-border');
+                    console.log(distances);
+                    let res = g.dijkstra(g.nodes[0])["distances"];
+                    let resultString = "";
+                    let sum=0
+                    for (let key in res) {
+                        if (distances.hasOwnProperty(key)) {
+                            resultString += key + " -> " + distances[key] + ", ";
+                        }
+                        sum+=res[key];
+                    }
+                    $('#res > p').text(resultString);
+                    $('#res').append(`<hr><p><b>Shortest path value:</b> ${sum}</p>`);
+                    $('#res').removeClass("d-none");
+                }
+                $(this).trigger("blur");
             });
+            
     }
+    
     function getDijkstraPath(x){
         let path=new Set();
         for(let k of Object.keys(x)){
@@ -241,15 +321,10 @@ function simulate(g) {
             const existingOptions = $pSource.find('option').map(function() {
                 return $(this).text();
             }).get();
-            //adding only new options to p-source
+            //adding only new options to p-source nd p-link
             for (let i of inputs) {
                 if (!existingOptions.includes(i)) {
                     $pSource.append(`<option>${i}</option>`).removeAttr('disabled');
-                }
-            }
-            //same for p-source
-            for (let i of inputs) {
-                if (!existingOptions.includes(i)) {
                     $pLink.append(`<option>${i}</option>`).removeAttr('disabled');
                 }
             }
@@ -300,6 +375,12 @@ function simulate(g) {
     dragNode(list);
     $('.node').addClass('show-border');
     $('.link').addClass('show-arrow');
+    $("#field > .link").each(function () {
+        if (getDijkstraPath(g.dijkstra(g.nodes[0])["parents"]).has($(this).attr("id"))) {
+            $(this).addClass('show-arrow')
+            $(this).css({ 'background-color': '#0FCCB2' });
+        }
+    });
     setupTable();
     // highlightDistance();
 }
