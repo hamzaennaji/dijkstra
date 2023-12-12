@@ -22,194 +22,205 @@
     <div id="field"></div>
     <div id="res" class="alert alert-success d-none" role="alert"></div>
     <div class="choices">
-        <button type="button" id="launch" class="btn btn-primary" data-toggle="modal" data-target="#table-input">Launch simulation</button>
-        <button type="button" id="open-guide" class="btn btn-light" data-toggle="modal"data-target="#guide">guide</button>
+        <button type="button" id="launch" class="btn btn-primary" data-toggle="modal" data-target="#table-input">Launch
+            simulation</button>
+        <button type="button" id="open-guide" class="btn btn-light" data-toggle="modal"
+            data-target="#guide">guide</button>
     </div>
-        <div class="modal fade" id="guide" tabindex="-1" role="dialog" aria-labelledby="guide" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2 class="modal-title" id="exampleModalLabel">Simulation Guide</h2>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">✖</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="col-12">
-                            <h2>Dijkstra's Algorithm</h2>
+    <div class="modal fade" id="guide" tabindex="-1" role="dialog" aria-labelledby="guide" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Simulation Guide</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">✖</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-12">
+                        <h2>Dijkstra's Algorithm</h2>
+                        <div class="alert alert-light">
+                            <p>
+                                Dijkstra's algorithm is a graph search algorithm that solves the single-source shortest
+                                path problem for a graph with non-negative edge weights, producing a shortest path tree.
+                            </p>
+                            <p>
+                                The algorithm exists in many variants; Dijkstra's original variant found the shortest
+                                path between two nodes, but a more common variant fixes a single node as the "source"
+                                node and finds shortest paths from the source to all other nodes in the graph, producing
+                                a shortest-path tree.
+                            </p>
+                            <p>
+                                Follow the steps below to apply Dijkstra's algorithm in this project.
+                            </p>
+                        </div>
+                        <div class="step">
+                            <h2>Step 1: Provide Nodes</h2>
+                            <p>
+                                Start by providing all the nodes you want to apply Dijkstra's algorithm on.
+                                <br>
+                                Example:
+                            <table class="table table-bordered table-sm text-center">
+                                <tr>
+                                    <th>Node</th>
+                                </tr>
+                                <tr>
+                                    <td>A</td>
+                                </tr>
+                                <tr>
+                                    <td>B</td>
+                                </tr>
+                                <tr>
+                                    <td>C</td>
+                                </tr>
+                                <tr>
+                                    <td>D</td>
+                                </tr>
+                            </table>
+                            <div class="c">
+                                <p>Caution:</p>
+                                <ul class="list-group text-center">
+                                    <li class="list-group-item list-group-item-danger">The initial node you provide will
+                                        be considered the 'source'—the starting point for the algorithm.</li>
+                                    <li class="list-group-item list-group-item-danger">provide more than one node!</li>
+                                    <li class="list-group-item list-group-item-danger">Duplicated nodes aren't allowed!
+                                    </li>
+                                </ul>
+                            </div>
+                            </p>
+                        </div>
+                        <div class="step">
+                            <h2>Step 2: Link Nodes</h2>
+                            <p>
+                                Link each node with its connected nodes and provide the weight of the link.
+                                <br>
+                                Example:
+                            <table class="table table-bordered table-sm text-center">
+                                <tr>
+                                    <th>Source</th>
+                                    <th>Weight</th>
+                                    <th>Link</th>
+                                </tr>
+                                <tr>
+                                    <td>A</td>
+                                    <td>3</td>
+                                    <td>B</td>
+                                </tr>
+                                <tr>
+                                    <td>A</td>
+                                    <td>2</td>
+                                    <td>C</td>
+                                </tr>
+                                <tr>
+                                    <td>B</td>
+                                    <td>2</td>
+                                    <td>D</td>
+                                </tr>
+                                <tr>
+                                    <td>C</td>
+                                    <td>6</td>
+                                    <td>D</td>
+                                </tr>
+                            </table>
                             <div class="alert alert-light">
-                                <p>
-                                    Dijkstra's algorithm is a graph search algorithm that solves the single-source shortest path problem for a graph with non-negative edge weights, producing a shortest path tree.
-                                </p>
-                                <p>
-                                    The algorithm exists in many variants; Dijkstra's original variant found the shortest path between two nodes, but a more common variant fixes a single node as the "source" node and finds shortest paths from the source to all other nodes in the graph, producing a shortest-path tree.
-                                </p>
-                                <p>
-                                    Follow the steps below to apply Dijkstra's algorithm in this project.
-                                </p>
+                                <p>Please be careful:</p>
+                                <ul class="list-group text-center">
+                                    <li class="list-group-item list-group-item-danger">Nodes cannot be linked to
+                                        themselves.</li>
+                                    <li class="list-group-item list-group-item-danger">A link cannot be duplicated.</li>
+                                    <li class="list-group-item list-group-item-danger">Weight shouldn't be a negative
+                                        value.</li>
+                                    <li class="list-group-item list-group-item-danger">Each node must have at least one
+                                        link from the source node.</li>
+                                </ul>
                             </div>
-                            <div class="step">
-                                <h2>Step 1: Provide Nodes</h2>
-                                <p>
-                                    Start by providing all the nodes you want to apply Dijkstra's algorithm on.
-                                    <br>
-                                    Example:
-                                    <table class="table table-bordered table-sm text-center">
-                                        <tr>
-                                            <th>Node</th>
-                                        </tr>
-                                        <tr>
-                                            <td>A</td>
-                                        </tr>
-                                        <tr>
-                                            <td>B</td>
-                                        </tr>
-                                        <tr>
-                                            <td>C</td>
-                                        </tr>
-                                        <tr>
-                                            <td>D</td>
-                                        </tr>
-                                    </table>
-                                    <div class="c">
-                                        <p>Caution:</p>
-                                        <ul class="list-group text-center">
-                                            <li class="list-group-item list-group-item-danger">The initial node you provide will be considered the 'source'—the starting point for the algorithm.</li>
-                                            <li class="list-group-item list-group-item-danger">provide more than one node!</li>
-                                            <li class="list-group-item list-group-item-danger">Duplicated nodes aren't allowed!</li>
-                                        </ul>
-                                    </div>
-                                </p>
-                            </div>
-                            <div class="step">
-                                <h2>Step 2: Link Nodes</h2>
-                                <p>
-                                    Link each node with its connected nodes and provide the weight of the link.
-                                    <br>
-                                    Example:
-                                    <table class="table table-bordered table-sm text-center">
-                                        <tr>
-                                            <th>Source</th>
-                                            <th>Weight</th>
-                                            <th>Link</th>
-                                        </tr>
-                                        <tr>
-                                            <td>A</td>
-                                            <td>3</td>
-                                            <td>B</td>
-                                        </tr>
-                                        <tr>
-                                            <td>A</td>
-                                            <td>2</td>
-                                            <td>C</td>
-                                        </tr>
-                                        <tr>
-                                            <td>B</td>
-                                            <td>2</td>
-                                            <td>D</td>
-                                        </tr>
-                                        <tr>
-                                            <td>C</td>
-                                            <td>6</td>
-                                            <td>D</td>
-                                        </tr>
-                                    </table>
-                                    <div class="alert alert-light">
-                                        <p>Please be careful:</p>
-                                        <ul class="list-group text-center">
-                                            <li class="list-group-item list-group-item-danger">Nodes cannot be linked to themselves.</li>
-                                            <li class="list-group-item list-group-item-danger">A link cannot be duplicated.</li>
-                                            <li class="list-group-item list-group-item-danger">Weight shouldn't be a negative value.</li>
-                                            <li class="list-group-item list-group-item-danger">Each node must have at least one link from the source node.</li>
-                                        </ul>
-                                    </div>
-                                </p>
-                            </div>
-                            <h2>Step 3: Launch Simulation</h2>
-                            <div class="step alert alert-light">
-                                <p>
-                                    Once all nodes are linked, launch the simulation to visualize the graph.
-                                </p>
-                                <h6>Adjust Graph:</h6>
-                                <p>
-                                    Each nodes gets generated on the screen randomly !<br>
-                                    You can interact with the graph by dragging nodes to change their positions.
-                                </p>
-                            </div>
-                            <i>have fun ^^</i>
+                            </p>
                         </div>
+                        <h2>Step 3: Launch Simulation</h2>
+                        <div class="step alert alert-light">
+                            <p>
+                                Once all nodes are linked, launch the simulation to visualize the graph.
+                            </p>
+                            <h6>Adjust Graph:</h6>
+                            <p>
+                                Each nodes gets generated on the screen randomly !<br>
+                                You can interact with the graph by dragging nodes to change their positions.
+                            </p>
+                        </div>
+                        <i>have fun ^^</i>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="modal fade" id="table-input" tabindex="-1" role="dialog" aria-labelledby="table-input"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">insert all the points</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">✖</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="col-12">
-                            <table id="insert" class="table table-bordered table-sm">
-                                <tr>
-                                    <th>point name</th>
-                                    <th>delete</th>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-control" type="text" placeholder="point" aria-label="point">
-                                    </td>
-                                    <td><button type="button" id="delete"
-                                            class="btn btn-danger w-100 text-center">✖</button></td>
-                                </tr>
-                            </table>
-                            <table id="insert-links" class="table table-bordered table-sm d-none">
-                                <tr>
-                                    <th>source</th>
-                                    <th>weight</th>
-                                    <th>link</th>
-                                    <th>delete</th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <select class="form-select p-source" aria-label="" disabled></select>
-                                    </td>
-                                    <td>
-                                        <input class="form-control p-weight" type="text" placeholder="weight"
-                                            aria-label="weight">
-                                    </td>
-                                    <td>
-                                        <select class="form-select p-link" aria-label="" disabled></select>
-                                    </td>
-                                    <td>
-                                        <button type="button" id="delete2" class="btn btn-danger w-100 text-center"
-                                            data-clicked=no>✖</button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" id="back" class="btn btn-secondary d-none">← Back</button>
-                        <button type="button" id="add" class="btn btn-primary"><img src="./src/imgs/plus.png"
-                                alt="Add"></button>
-                        <button type="button" id="add2" class="btn btn-primary d-none"><img src="./src/imgs/plus.png"
-                                alt="Link"></button>
-                        <button type="button" id="save" class="btn btn-light">Next →</button>
-                        <button type="button" id="save2" class="btn btn-success d-none"><img src="./src/imgs/launch.png"
-                                alt="Launch"></button>
+    <div class="modal fade" id="table-input" tabindex="-1" role="dialog" aria-labelledby="table-input"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">insert all the points</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">✖</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-12">
+                        <table id="insert" class="table table-bordered table-sm">
+                            <tr>
+                                <th>point name</th>
+                                <th>delete</th>
+                            </tr>
+                            <tr>
+                                <td><input class="form-control" type="text" placeholder="point" aria-label="point">
+                                </td>
+                                <td><button type="button" id="delete"
+                                        class="btn btn-danger w-100 text-center">✖</button></td>
+                            </tr>
+                        </table>
+                        <table id="insert-links" class="table table-bordered table-sm d-none">
+                            <tr>
+                                <th>source</th>
+                                <th>weight</th>
+                                <th>link</th>
+                                <th>delete</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <select class="form-select p-source" disabled></select>
+                                </td>
+                                <td>
+                                    <input class="form-control p-weight" type="text" placeholder="weight"
+                                        aria-label="weight">
+                                </td>
+                                <td>
+                                    <select class="form-select p-link" disabled></select>
+                                </td>
+                                <td>
+                                    <button type="button" id="delete2" class="btn btn-danger w-100 text-center"
+                                        data-clicked=no>✖</button>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
-            </div>
-            <div id="errorMsg" class="alert alert-danger fade">
-                <span class="close-popin">✖</span>
-                <span></span>
+                <div class="modal-footer">
+                    <button type="button" id="back" class="btn btn-secondary d-none">← Back</button>
+                    <button type="button" id="add" class="btn btn-primary"><img src="./src/imgs/plus.png"
+                            alt="Add"></button>
+                    <button type="button" id="add2" class="btn btn-primary d-none"><img src="./src/imgs/plus.png"
+                            alt="Link"></button>
+                    <button type="button" id="save" class="btn btn-light">Next →</button>
+                    <button type="button" id="save2" class="btn btn-success d-none"><img src="./src/imgs/launch.png"
+                            alt="Launch"></button>
+                </div>
             </div>
         </div>
+        <div id="errorMsg" class="alert alert-danger fade">
+            <span class="close-popin">✖</span>
+            <span></span>
+        </div>
+    </div>
 
     <script src="./src/classes/graph.js"></script>
     <script src="./src/js/code.js"></script>

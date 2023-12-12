@@ -281,8 +281,6 @@ function simulate(g) {
                     drawevErything(g.nodeList);
                     initLinks(g.nodeList);
                     dragNode(g.nodeList);
-                    $("#launch").trigger("blur");
-                    $("#open-guide").trigger("blur");
                     let distances = g.dijkstra(g.nodes[0])["distances"];
                     let parents = g.dijkstra(g.nodes[0])["parents"];
                     let path = getDijkstraPath(parents);

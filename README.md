@@ -43,6 +43,10 @@ Once all nodes are linked, launch the simulation to visualize the graph. Nodes a
 
 In case of errors, an error message will be displayed on the screen.
 
+## What'next ?
+
+Adding Kruskal algorithm between two selected nodes to find their minimum spanning tree.
+
 ## Link
 
 Dijkstra's Algorithm Simulator : https://hamzaennaji.github.io/dijkstra/
