@@ -5,13 +5,18 @@
 body{
     padding: 0px;
     margin : 0px;    
-    overflow: hidden;
+    overflow: hidden !important;
 }
 #field{
-    padding : 0px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     margin  : 0px;
-    width   : 97%;
-    height  : 90vh;
+    padding : 0px;
+    height  : 94vh;
+    width   : 100%;
+    position: fixed;
     overflow: hidden !important;
 }
 .node {
@@ -90,14 +95,20 @@ body{
     color: white;
     position: absolute;
 }
+.btn-primary:hover,.btn-primary:focus,.btn-primary:active, 
+.btn-primary:active:focus:not(:disabled):not(.disabled),
+.btn:focus, .btn:active, .btn:hover{
+    box-shadow: none!important;
+    outline: 0;
+}
 .choices{
+    overflow: hidden;
     position: absolute;
     bottom: 0;
     width: 100%;
     height: 50px;
-    margin-left: 40%;
+    text-align: center;
 }
-
 .close {
     font-size: 1.5rem;
     font-weight: 700;
@@ -141,10 +152,13 @@ body{
     font-size: 20px;
 }
 #res {
-    width: auto;
     position: fixed;
     bottom: 0;
     left: 0;
     margin: 20px;
-    width: 500px;
+    width: 350px;
+    height: 150px;
+}
+.step {
+    margin-bottom: 20px;
 }
